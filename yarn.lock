@@ -2472,8 +2472,8 @@ uuid@^3.2.1, uuid@^3.3.2:
 
 v8-profiler-node8@^6.0.1:
   version "6.0.1"
-  resolved "https://a0us.jfrog.io/a0us/api/npm/npm/v8-profiler-node8/-/v8-profiler-node8-6.0.1.tgz#2558f5dab7622f2305213e6ccb4dde1f66cc631f"
-  integrity sha1-JVj12rdiLyMFIT5sy03eH2bMYx8=
+  resolved "https://registry.yarnpkg.com/v8-profiler-node8/-/v8-profiler-node8-6.0.1.tgz#2558f5dab7622f2305213e6ccb4dde1f66cc631f"
+  integrity sha512-DD7L0c/2KeFFQxs20VaFPHq/CSintttW4YB+QJdJ5ZohxOegbsMCvnZKHRHVA9UZfVYqq6ZsLaywe74+3JpZjw==
   dependencies:
     nan "^2.5.1"
     node-pre-gyp "^0.11.0"

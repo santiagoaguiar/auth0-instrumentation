@@ -2,54 +2,6 @@
 version: v1.12.0
 # ignores vulnerabilities until expiry date; change duration by modifying expiry date
 ignore:
-  'npm:cryptiles:20180710':
-    - v8-profiler-node8 > node-pre-gyp > hawk > cryptiles:
-        reason: 'package used only during build time '
-        expires: '2019-06-05T23:01:35.487Z'
-    - v8-profiler-node8 > node-pre-gyp > request > hawk > cryptiles:
-        reason: 'package only used during build time '
-        expires: '2019-06-05T23:01:35.487Z'
-  'npm:hoek:20180212':
-    - v8-profiler-node8 > node-pre-gyp > hawk > hoek:
-        reason: >-
-          The vulnerable package is not used during runtime, only when
-          installing
-        expires: '2019-06-17T17:35:14.388Z'
-    - v8-profiler-node8 > node-pre-gyp > hawk > boom > hoek:
-        reason: >-
-          The vulnerable package is not used during runtime, only when
-          installing
-        expires: '2019-06-17T17:35:14.389Z'
-    - v8-profiler-node8 > node-pre-gyp > hawk > sntp > hoek:
-        reason: >-
-          The vulnerable package is not used during runtime, only when
-          installing
-        expires: '2019-06-17T17:35:14.389Z'
-    - v8-profiler-node8 > node-pre-gyp > request > hawk > hoek:
-        reason: >-
-          The vulnerable package is not used during runtime, only when
-          installing
-        expires: '2019-06-17T17:35:14.389Z'
-    - v8-profiler-node8 > node-pre-gyp > hawk > cryptiles > boom > hoek:
-        reason: >-
-          The vulnerable package is not used during runtime, only when
-          installing
-        expires: '2019-06-17T17:35:14.389Z'
-    - v8-profiler-node8 > node-pre-gyp > request > hawk > boom > hoek:
-        reason: >-
-          The vulnerable package is not used during runtime, only when
-          installing
-        expires: '2019-06-17T17:35:14.389Z'
-    - v8-profiler-node8 > node-pre-gyp > request > hawk > sntp > hoek:
-        reason: >-
-          The vulnerable package is not used during runtime, only when
-          installing
-        expires: '2019-06-17T17:35:14.389Z'
-    - v8-profiler-node8 > node-pre-gyp > request > hawk > cryptiles > boom > hoek:
-        reason: >-
-          The vulnerable package is not used during runtime, only when
-          installing
-        expires: '2019-06-17T17:35:14.389Z'
   'npm:chownr:20180731':
     - gc-stats > node-pre-gyp > tar > chownr:
         reason: >-

@@ -1,5 +1,12 @@
 # Changelog
 
+<a name="v2.26.0"></a>
+# v2.26.0
+### Dependencies
+* Update v8-profiler-node8 v5.7.6 -> v6.0.1
+  * [Diff](https://github.com/hyj1991/v8-profiler-node8/compare/d31dc19f13f807d9eacf7c4dda72981d3f983a1e...2f39e25e3d1bc251a7d175e9368755bbac6777f2)
+  * Fixes multiple Snyk security vulnerabilities
+
 <a name="v2.24.0"></a>
 # v2.24.0
 ### Dependencies

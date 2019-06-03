@@ -15,7 +15,9 @@ describe('tracer utils', () => {
         'long_string': '12345678901234567890123456789012345678901234',
         'number': 22,
         'null': null,
-        'undefined': undefined
+        'undefined': undefined,
+        'bool_true': true,
+        'bool_false': false
       };
 
       const expected = {
@@ -27,7 +29,9 @@ describe('tracer utils', () => {
         'long_string': '12345678901234567890123456789012345...[44]',
         'number': '22',
         'null': 'null',
-        'undefined': 'undefined'
+        'undefined': 'undefined',
+        'bool_true': 'true',
+        'bool_false': 'false'
       };
 
       assert.deepEqual(tracerUtils.mapToTags(map), expected);

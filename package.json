@@ -1,6 +1,6 @@
 {
   "name": "auth0-instrumentation",
-  "version": "2.25.1",
+  "version": "2.26.0",
   "description": "Instrumentation for logs, metrics, and exceptions",
   "main": "index.js",
   "scripts": {
@@ -29,7 +29,7 @@
     "protobufjs": "^6.8.8",
     "raven": "^0.10.0",
     "uuid": "^3.0.1",
-    "v8-profiler-node8": "^5.7.6"
+    "v8-profiler-node8": "^6.0.1"
   },
   "devDependencies": {
     "dotenv": "^6.0.0",

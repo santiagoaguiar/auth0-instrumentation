@@ -126,7 +126,7 @@ describe('tracer stub', function() {
         $tracer.captureFunc('child_operation', function() {
           throw err;
         });
-      }, 'expected');
+      }, /expected/);
       parentSpan.finish();
       const report = $mock.report();
       assert.equal(2, report.spans.length);

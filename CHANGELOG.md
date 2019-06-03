@@ -1,5 +1,10 @@
 # Changelog
 
+<a name="v2.27.0"></a>
+# v2.27.0
+### Dependencies
+* Add trace utils: mapToTags
+
 <a name="v2.26.0"></a>
 # v2.26.0
 ### Dependencies

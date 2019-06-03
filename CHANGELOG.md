@@ -1,5 +1,10 @@
 # Changelog
 
+<a name="v2.27.1"></a>
+# v2.27.1
+### Bugfix
+* Support boolean on mapToTags
+
 <a name="v2.27.0"></a>
 # v2.27.0
 ### Dependencies

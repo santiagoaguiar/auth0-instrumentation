@@ -12,7 +12,7 @@ describe('tracer utils', () => {
         'constructed_object': new MyObj(),
         'literal_object': {},
         'short_string': 'myString',
-        'long_string': '123456789012345678901234567890',
+        'long_string': '12345678901234567890123456789012345678901234',
         'number': 22,
         'null': null,
         'undefined': undefined
@@ -24,7 +24,7 @@ describe('tracer utils', () => {
         'constructed_object': 'Object:MyObj',
         'literal_object': 'Object:Object',
         'short_string': 'myString',
-        'long_string': '1234567890123456789012345...[30]',
+        'long_string': '12345678901234567890123456789012345...[44]',
         'number': '22',
         'null': 'null',
         'undefined': 'undefined'

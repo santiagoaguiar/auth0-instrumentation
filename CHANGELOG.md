@@ -1,5 +1,12 @@
 # Changelog
 
+<a name="v2.27.2"></a>
+# v2.27.1
+### Bugfix
+* Added `isTracingEnabled` parameter as an alias of `isEnabled` since `isEnabled`
+applies only to tracing but has a very generic name. `isEnabled` still works so we
+don't apply any breaking change but should be consider deprecated.
+
 <a name="v2.27.1"></a>
 # v2.27.1
 ### Bugfix

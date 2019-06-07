@@ -1,5 +1,11 @@
 # Changelog
 
+<a name="v2.27.3"></a>
+# v2.27.3
+### Bugfix
+* Resolved error `spanContext.forEachBaggageItem is not a function` when switching
+from stubbed to basic tracer dynamically using the switchable tracer.
+
 <a name="v2.27.2"></a>
 # v2.27.1
 ### Bugfix

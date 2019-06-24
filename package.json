@@ -11,7 +11,7 @@
   "license": "ISC",
   "dependencies": {
     "auth0-common-logging": "auth0/auth0-common-logging#v2.22.0",
-    "aws-kinesis-writable": "4.2.1",
+    "aws-kinesis-writable": "^4.2.3",
     "blocked": "^1.2.1",
     "bunyan": "^1.8.1",
     "datadog-metrics": "~0.8.1",

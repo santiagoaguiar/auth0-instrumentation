@@ -1,5 +1,10 @@
 # Changelog
 
+<a name="v2.27.4"></a>
+# v2.27.4
+### Dependencies
+* Update `aws-kinesis-writable` to v4.2.3
+
 <a name="v2.27.3"></a>
 # v2.27.3
 ### Bugfix

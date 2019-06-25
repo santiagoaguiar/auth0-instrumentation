@@ -8,13 +8,14 @@ const request = require('supertest');
 const sinon = require('sinon');
 const requestjs = require('request');
 const stubs = require('../lib/stubs');
+const buildTracer = require('../lib/tracer');
 
 describe('tracer stub', function() {
   var $mock;
   var $tracer;
   beforeEach(function() {
     $mock = new opentracing.MockTracer();
-    $tracer = require('../lib/tracer')({}, {}, {
+    $tracer = buildTracer({}, {}, {
       REGION: 'myRegion',
       RELEASE_CHANNEL: 'myReleaseChannel',
       ENVIRONMENT: 'myEnvironment',
@@ -76,6 +77,52 @@ describe('tracer stub', function() {
       assert.ok(report.firstSpanWithTagValue('auth0.environment', 'myEnvironment'));
       assert.ok(report.firstSpanWithTagValue('auth0.channel', 'myReleaseChannel'));
       assert.ok(report.firstSpanWithTagValue('auth0.hostname', 'myHostname'));
+    });
+
+    describe('when there is followsFrom instead childOf', () => {
+      it('adds the references', function() {
+        let calledWithFollowsFrom = false;
+
+        const followsFromSpan = $mock.startSpan('bar');
+
+        const $tracer = buildTracer({}, {}, {
+          REGION: 'myRegion',
+          RELEASE_CHANNEL: 'myReleaseChannel',
+          ENVIRONMENT: 'myEnvironment',
+          METRICS_HOST: 'myHostname'
+        }, {
+          tracerImpl: {
+            startSpan: (name, options) => {
+              assert.equal(name, 'foo');
+              assert.equal(options.references[0]._type, 'follows_from');
+              assert.equal(options.references[0]._referencedContext._span, followsFromSpan);
+
+              calledWithFollowsFrom = true;
+
+              return $mock.startSpan(name, options);
+            }
+          }
+        });
+
+        const span = $tracer.startSpan('foo', { followsFrom: followsFromSpan });
+        span.finish();
+
+        assert.equal(calledWithFollowsFrom, true);
+      });
+
+      it('propagates the default tags', function() {
+        const followsFromSpan = $mock.startSpan('bar');
+
+        const span = $tracer.startSpan('foo', { followsFrom: followsFromSpan });
+        span.finish();
+
+        const report = $mock.report();
+
+        assert.ok(report.firstSpanWithTagValue('auth0.region', 'myRegion'));
+        assert.ok(report.firstSpanWithTagValue('auth0.environment', 'myEnvironment'));
+        assert.ok(report.firstSpanWithTagValue('auth0.channel', 'myReleaseChannel'));
+        assert.ok(report.firstSpanWithTagValue('auth0.hostname', 'myHostname'));
+      });
     });
 
     it('when there are other tags, should merge them', function() {

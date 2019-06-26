@@ -1,5 +1,23 @@
 # Changelog
 
+<a name="v2.28.0"></a>
+# v2.28.0
+
+### Feature
+- Accept `followsFrom` property as an option when creating spans so we can use it instead
+of `childOf` when the parent does not depends on the results from the childSpan but just causes it. This is a common relationship on producer-consumer relationship, the consumer sends a message  for the consumer to process it, but it does not usually cares about the result and considers its work finished once the message has been delivered. [More info](https://opentracing.io/docs/best-practices/#tracing-message-bus-scenarios).
+
+- Adds the following tags:
+  - AUTH0_WORKER_QUEUE
+  - AUTH0_WORKER_STRATEGY
+  - AUTH0_WORKER_REQUEUE
+  - AUTH0_JOB_ID
+  - AUTH0_JOB_TYPE
+  - AUTH0_CLIENT_ID
+  - AUTH0_CONNECTION_NAME
+  - AUTH0_IS_RETRY
+  - AUTH0_RETRIES
+
 <a name="v2.27.4"></a>
 # v2.27.4
 ### Dependencies

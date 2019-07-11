@@ -1,4 +1,9 @@
 # Changelog
+<a name="v2.29.0"></a>
+# v2.29.0
+
+### Feature
+Support tagging sentry errors with the release.
 
 <a name="v2.28.0"></a>
 # v2.28.0

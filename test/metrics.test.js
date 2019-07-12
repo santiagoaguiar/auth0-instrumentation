@@ -219,6 +219,89 @@ describe('metrics', function() {
         $metrics.flush();
         sinon.assert.called(metricsSpy);
       });
+
+      describe('API adapter', () => {
+        function buildMetricsMock() {
+          const gauge = sinon.stub();
+          const increment = sinon.stub();
+          const histogram = sinon.stub();
+          const flush = sinon.stub();
+
+          const metrics = $require('../lib/metrics_factory', {
+            'datadog-metrics': {
+              BufferedMetricsLogger: function() {
+                return { gauge, increment, histogram, flush };
+              }
+            }
+          }).create({ name: 'test' }, {
+            METRICS_API_KEY: 'datadogkey'
+          });
+
+          return { metrics, gauge, increment, histogram, flush };
+        }
+
+        describe('without callback', () => {
+          it('calls gauge correctly', () => {
+            const mock = buildMetricsMock();
+
+            mock.metrics.gauge('my_metric', 1, { mytag: 'value' });
+
+            sinon.assert.calledOnce(mock.gauge);
+            sinon.assert.calledWith(mock.gauge, 'my_metric', 1, { mytag: "value" });
+          });
+
+          it('calls increment correctly', () => {
+            const mock = buildMetricsMock();
+
+            mock.metrics.increment('my_metric', 1, { mytag: 'value' });
+
+            sinon.assert.calledOnce(mock.increment);
+            sinon.assert.calledWith(mock.increment, 'my_metric', 1, { mytag: "value" });
+          });
+
+          it('calls histogram correctly', () => {
+            const mock = buildMetricsMock();
+
+            mock.metrics.histogram('my_metric', 100, { mytag: 'value' });
+
+            sinon.assert.calledOnce(mock.histogram);
+            sinon.assert.calledWith(mock.histogram, 'my_metric', 100, { mytag: "value" });
+          });
+        });
+
+        describe('with callback', () => {
+          it('calls gauge correctly', (done) => {
+            const mock = buildMetricsMock();
+
+            mock.metrics.gauge('my_metric', 1, { mytag: 'value' }, () => {
+              sinon.assert.calledOnce(mock.gauge);
+              sinon.assert.calledWith(mock.gauge, 'my_metric', 1, { mytag: "value" });
+              done();
+            });
+          });
+
+          it('calls increment correctly', (done) => {
+            const mock = buildMetricsMock();
+
+            mock.metrics.increment('my_metric', 1, { mytag: 'value' }, () => {
+              sinon.assert.calledOnce(mock.increment);
+              sinon.assert.calledWith(mock.increment, 'my_metric', 1, { mytag: "value" });
+              done();
+            });
+          });
+
+          it('calls histogram correctly', (done) => {
+            const mock = buildMetricsMock();
+
+            mock.metrics.histogram('my_metric', 100, { mytag: 'value' }, () => {
+              sinon.assert.calledOnce(mock.histogram);
+              sinon.assert.calledWith(mock.histogram, 'my_metric', 100, { mytag: "value" });
+              done();
+            });
+          });
+        });
+
+      });
     });
   });
 });

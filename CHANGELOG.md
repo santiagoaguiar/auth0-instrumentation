@@ -1,4 +1,10 @@
 # Changelog
+<a name="v2.29.1"></a>
+# v2.29.1
+
+### Bugfix
+- Fix metrics when using METRICS_API_KEY
+
 <a name="v2.29.0"></a>
 # v2.29.0
 

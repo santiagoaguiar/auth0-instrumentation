@@ -161,7 +161,12 @@ var env = require('./lib/env');
 var agent = require('auth0-instrumentation');
 var request = require('request');
 
-agent.init(pkg, env);
+agent.init(pkg, env, {
+  errorReporter: {
+    splitEnvironmentByReleaseChannel: true
+  }
+});
+
 var tracer = agent.tracer;
 var wrapRequest = tracer.agent.helpers.wrapRequest;
 
@@ -347,7 +352,10 @@ const env = {
   'TRACE_AGENT_USE_TLS': true,
   'TRACE_AGENT_HOST': 'localhost',
   'TRACE_AGENT_PORT': 443,
-  'TRACE_REPORTING_INTERVAL_MILLIS': 500
+  'TRACE_REPORTING_INTERVAL_MILLIS': 500,
+
+  'SENTRY_RELEASE': '...', // Optional overrides the default sentry release name (package.name@package.version)
+  'SENTRY_ENVIRONMENT': '...' // Optional override for the environment we send to sentry (default: environment or environment:release channel depending on splitEnvironmentByReleaseChannel)
 };
 ```
 

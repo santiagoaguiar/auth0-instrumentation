@@ -1,6 +1,6 @@
 {
   "name": "auth0-instrumentation",
-  "version": "2.29.1",
+  "version": "2.30.0",
   "description": "Instrumentation for logs, metrics, and exceptions",
   "main": "index.js",
   "scripts": {

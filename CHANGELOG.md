@@ -6,6 +6,9 @@
 - Error reporter for logger and plain old error reporter exposed on index were being
 instantiated twice each time with different arguments, this PR fix that by instantiating the error
 reporter a single time on index and injecting it into the logger.
+- The version of the raven client being used didn't support release as an option, raven version
+was updated to raven@0.12.0 which keeps same API as before. Update to new sentry version
+has been tracked.
 
 <a name="v2.30.0"></a>
 # v2.30.0

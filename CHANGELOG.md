@@ -1,4 +1,16 @@
 # Changelog
+<a name="v2.30.0"></a>
+# v2.30.0
+
+### Feature
+- Support option `splitEnvironmentByReleaseChannel` to send env.ENVIRONMENT:env.RELEASE_CHANNEL
+to Sentry. Sentry still allows you to select more than one environment in case we want
+to get back to the original setup of having all the environment together regardless of the
+release channel.
+
+### Bugfix
+- Fix metrics when using METRICS_API_KEY
+
 <a name="v2.29.1"></a>
 # v2.29.1
 

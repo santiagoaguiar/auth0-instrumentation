@@ -30,12 +30,17 @@ module.exports = {
    * @param {Object} env Environment configuration for instrumentation
    * @param {Object} serializers Logger serializers
    * @param {InstrumentationParams} params Instrumentation parametrs
+   * @param {Object} [params.errorReporter]
+   * @param {boolean} params.errorReporter.splitEnvironmentByReleaseChannel Whether to send
+   * environmentName + releaseChannel to sentry instead of just environmentName
    */
   init: function(pkg, env, serializers, params) {
     if (this.initialized) { return; }
 
     this.logger = Logger(pkg, env, serializers);
-    this.errorReporter = ErrorReporter(pkg, env);
+    this.errorReporter = ErrorReporter(pkg, env, {
+      splitEnvironmentByReleaseChannel: params && params.errorReporter && params.errorReporter.splitEnvironmentByReleaseChannel
+    });
     this.metrics = Metrics(pkg, env);
     this.profiler = new Profiler(this, pkg, env);
     this.tracer = Tracer(this, pkg, env, {

@@ -1,4 +1,12 @@
 # Changelog
+<a name="v2.30.1"></a>
+# v2.30.1
+
+### Bugfix
+- Error reporter for logger and plain old error reporter exposed on index were being
+instantiated twice each time with different arguments, this PR fix that by instantiating the error
+reporter a single time on index and injecting it into the logger.
+
 <a name="v2.30.0"></a>
 # v2.30.0
 

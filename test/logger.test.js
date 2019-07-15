@@ -2,21 +2,26 @@
 
 const assert = require('assert');
 const sentry = require('../lib/error_reporter')({}, {});
-const logger = require('../lib/logger')({ name: 'test' },
-                                        { LOG_LEVEL: 'fatal',
-                                          PURPOSE: 'test-purpose',
-                                          ENVIRONMENT: 'test-env',
-                                          RELEASE_CHANNEL: 'test-channel',
-                                          AWS_REGION: 'test-region'
-                                        });
+const buildLogger = require('../lib/logger');
 const spy = require('sinon').spy;
 
 describe('logger', function() {
+  let logger;
+
   beforeEach(function() {
     sentry.captureException = spy();
     sentry.captureMessage = spy();
     sentry.captureException.resetHistory();
     sentry.captureMessage.resetHistory();
+
+    logger = buildLogger({ name: 'test' },
+                                        { LOG_LEVEL: 'fatal',
+                                          PURPOSE: 'test-purpose',
+                                          ENVIRONMENT: 'test-env',
+                                          RELEASE_CHANNEL: 'test-channel',
+                                          AWS_REGION: 'test-region'
+                                        }, null, null, sentry);
+
   });
 
   describe('logger.child()', function() {

@@ -37,10 +37,12 @@ module.exports = {
   init: function(pkg, env, serializers, params) {
     if (this.initialized) { return; }
 
-    this.logger = Logger(pkg, env, serializers);
-    this.errorReporter = ErrorReporter(pkg, env, {
+    const errorReporter = ErrorReporter(pkg, env, {
       splitEnvironmentByReleaseChannel: params && params.errorReporter && params.errorReporter.splitEnvironmentByReleaseChannel
     });
+
+    this.errorReporter = errorReporter;
+    this.logger = Logger(pkg, env, serializers, null, errorReporter);
     this.metrics = Metrics(pkg, env);
     this.profiler = new Profiler(this, pkg, env);
     this.tracer = Tracer(this, pkg, env, {

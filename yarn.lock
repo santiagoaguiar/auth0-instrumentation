@@ -1358,7 +1358,7 @@ lru-cache@^4.0.1:
 
 lsmod@1.0.0:
   version "1.0.0"
-  resolved "https://a0us.jfrog.io/a0us/api/npm/npm/lsmod/-/lsmod-1.0.0.tgz#9a00f76dca36eb23fa05350afe1b585d4299e64b"
+  resolved "https://registry.yarnpkg.com/lsmod/-/lsmod-1.0.0.tgz#9a00f76dca36eb23fa05350afe1b585d4299e64b"
 
 media-typer@0.3.0:
   version "0.3.0"
@@ -1886,9 +1886,9 @@ range-parser@~1.2.0:
   version "1.2.0"
   resolved "https://registry.yarnpkg.com/range-parser/-/range-parser-1.2.0.tgz#f49be6b487894ddc40dcc94a322f611092e00d5e"
 
-raven@0.12.0:
-  version "0.12.0"
-  resolved "https://a0us.jfrog.io/a0us/api/npm/npm/raven/-/raven-0.12.0.tgz#53370f749a55c9a092ce704e3801345a913de5a3"
+raven@0.12.1:
+  version "0.12.1"
+  resolved "https://registry.yarnpkg.com/raven/-/raven-0.12.1.tgz#dad6b485e85bfac8f9af5fbb4c7a0d7c8350fbc7"
   dependencies:
     cookie "0.1.0"
     json-stringify-safe "^5.0.1"

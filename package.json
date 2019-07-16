@@ -1,6 +1,6 @@
 {
   "name": "auth0-instrumentation",
-  "version": "2.30.1",
+  "version": "2.30.0",
   "description": "Instrumentation for logs, metrics, and exceptions",
   "main": "index.js",
   "scripts": {
@@ -27,7 +27,7 @@
     "opentracing": "^0.14.3",
     "pidusage": "^1.0.4",
     "protobufjs": "^6.8.8",
-    "raven": "0.12.0",
+    "raven": "0.12.1",
     "uuid": "^3.0.1",
     "v8-profiler-node8": "^6.0.1"
   },

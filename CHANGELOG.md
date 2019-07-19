@@ -1,6 +1,6 @@
 # Changelog
-<a name="v2.30.2"></a>
-# v2.30.2
+<a name="v2.31.0"></a>
+# v2.31.0
 
 - Tracing: Exposes opentracing span.log function on spanwrapper.
 

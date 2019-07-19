@@ -1,4 +1,8 @@
 # Changelog
+<a name="v2.32.0"></a>
+# v2.32.0
+- Tracing: span `error()` helper
+
 <a name="v2.31.0"></a>
 # v2.31.0
 

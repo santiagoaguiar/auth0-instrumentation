@@ -1,4 +1,8 @@
 # Changelog
+<a name="v2.32.1"></a>
+# v2.32.1
+- Tracing: span `error()` added to stub
+
 <a name="v2.32.0"></a>
 # v2.32.0
 - Tracing: span `error()` helper

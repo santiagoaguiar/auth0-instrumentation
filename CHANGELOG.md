@@ -1,4 +1,9 @@
 # Changelog
+
+<a name="v2.32.2"></a>
+# v2.32.2
+- Tracing: span `log()` added to stub
+
 <a name="v2.32.1"></a>
 # v2.32.1
 - Tracing: span `error()` added to stub

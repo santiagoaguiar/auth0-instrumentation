@@ -1,5 +1,13 @@
 # Changelog
 
+<a name="v2.33.0"></a>
+# v2.33.0
+- Added support for Node 12
+
+### Dependencies
+* Update gc-stats v1.2.1 -> 1.4.0
+* Update v8-profiler-node8 v6.0.1 -> v8-profile-next v1.1.1
+
 <a name="v2.32.2"></a>
 # v2.32.2
 - Tracing: span `log()` added to stub

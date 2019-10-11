@@ -53,16 +53,6 @@ metrics.increment('some.other.thing', 5, tags); // increment by 5
 metrics.histogram('service.time', 0.248);
 ```
 
-### DNS
-Each metric submission ([`send`](https://nodejs.org/api/dgram.html#dgram_socket_send_msg_offset_length_port_address_callback) on connectionless/UDP socket) performs a DNS lookup.  Newer versions of node support providing a custom lookup function older versions of node (v6) don't allow this.  auth0-instrumention provides the ability to bypass localhost DNS lookups during statsd metric submission by providing a truthy env var named `METRICS_BYPASS_DNS`:
-
-```
-agent.init(pkg, {
-  METRICS_BYPASS_DNS: !!parseInt(process.env.METRICS_BYPASS_DNS, 10),
-  STATSD_HOST: 'udp://localhost:8125',
-});
-```
-
 ## Traces
 
 The tracing feature can be used with any backend that supports [opentracing](http://opentracing.io/).

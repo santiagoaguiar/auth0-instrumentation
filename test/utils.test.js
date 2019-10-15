@@ -48,4 +48,21 @@ describe('Utils', function() {
       });
     });
   });
+  describe('buildMetricPrefix', function() {
+    it('should return empty string if omit prefix is specified', function() {
+      assert('' === utils.buildMetricPrefix({
+        METRICS_PREFIX: '',
+      }));
+    });
+    it('should return METRICS_PREFIX value if specified', function() {
+      assert('hello.' === utils.buildMetricPrefix({
+        METRICS_PREFIX: 'hello.',
+      }));
+    });
+    it('should default to pkg.name', function() {
+      assert('test.' === utils.buildMetricPrefix({}, {
+        name: 'test',
+      }));
+    });
+  });
 });

@@ -44,6 +44,13 @@ module.exports = {
     this.errorReporter = errorReporter;
     this.logger = Logger(pkg, env, serializers, null, errorReporter);
     this.metrics = Metrics(pkg, env);
+    // creates an additional instance of metrics using the same configuration
+    // EXCEPT there is no metrics prefix.
+    // This should be minimal/no operational overhead since UDP is connectionless.
+    this.metrics.std = Metrics(pkg,
+      Object.assign({}, env, {METRICS_PREFIX: ''})
+    );
+
     this.profiler = new Profiler(this, pkg, env);
     this.tracer = Tracer(this, pkg, env, {
       // Using params.isEnabled should be consider legacy since it is a bit

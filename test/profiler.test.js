@@ -29,8 +29,10 @@ describe('Profiler', function() {
       this.retries(3);
       sinon.replace(profiler, 'report', sinon.spy());
       this.timeout(5000);
+      profiler.createThrottledSnapshot.flush();
       profiler.createThrottledSnapshot('testing');
       setTimeout(() => {
+        profiler.createThrottledSnapshot.cancel();
         try {
           assert(profiler.report.calledOnceWith(sinon.match.defined, sinon.match('testing')));
           done();

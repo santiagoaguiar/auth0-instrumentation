@@ -1,9 +1,12 @@
 language: node_js
 node_js:
-  - 6
   - 8
   - 10
+cache:
+  npm: false
+before_install:
+  - npm install -g npm@6
 install:
-  - yarn --ignore-engines
+  - npm install
 script:
   - ./test.sh

@@ -11,6 +11,11 @@ var metrics = require('../lib/metrics')({
 var processTags = require('../lib/utils').processTags;
 
 describe('metrics', function() {
+
+  after(function(){
+    metrics.close();
+  });
+
   it('should return isActive as true', function(done) {
     assert.equal(metrics.isActive, true);
     done();

@@ -1,5 +1,5 @@
 # Snyk (https://snyk.io) policy file, patches or ignores known vulnerabilities.
-version: v1.12.0
+version: v1.13.5
 # ignores vulnerabilities until expiry date; change duration by modifying expiry date
 ignore:
   'npm:chownr:20180731':
@@ -8,4 +8,8 @@ ignore:
           The vulnerable package is not used during runtime, only when
           installing
         expires: '2019-06-17T17:35:14.389Z'
+  SNYK-JS-SUBTEXT-467257:
+    - hapi > subtext:
+        reason: legacy support - devDep
+        expires: '2019-11-29T17:19:02.490Z'
 patch: {}

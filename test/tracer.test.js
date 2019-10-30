@@ -386,6 +386,10 @@ describe('tracer using jaeger-client', function() {
     });
   });
 
+  afterEach(function(done){
+    $tracer._tracer.close(done);
+  });
+
   describe('when wrapped', function() {
     it('should use the right service name', function() {
       assert.equal($tracer._tracer._process.serviceName, 'auth0-service');
@@ -430,6 +434,10 @@ describe('when using isEnabled is defined', function() {
       TRACE_AGENT_PORT: 443
     }, { isEnabled: () => {} });
   });
+
+  afterEach(function(done){
+    $tracer._tracer.baseTracer.close(done);
+  })
 
   it('returns a switchable tracer with correct stubs and base tracer', function() {
     assert.equal($tracer._tracer.tracerStubs, stubs.tracer);
@@ -667,6 +675,9 @@ describe('trace request helper', function() {
     $tracer = require('../lib/tracer')({}, {}, {}, { tracerImpl: $mock });
     $wrapRequest = $tracer.helpers.wrapRequest;
   });
+  after(function() {
+    $server.close()
+  })
 
   describe('stream calls', function() {
     it('should wrap simple requests in a span', function(done) {

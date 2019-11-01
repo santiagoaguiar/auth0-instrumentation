@@ -1,12 +1,13 @@
 {
-  "name": "auth0-instrumentation",
+  "name": "@a0/instrumentation",
   "version": "2.33.0",
   "description": "Instrumentation for logs, metrics, and exceptions",
   "main": "index.js",
   "scripts": {
-    "test": "mocha ${MOCHA_ARGS}"
+    "test": "mocha ${MOCHA_ARGS}",
+    "test:report": "mocha --reporter xunit",
+    "coverage": "nyc --reporter=html npm run test:report"
   },
-  "private": true,
   "author": "Auth0",
   "license": "ISC",
   "dependencies": {
@@ -33,15 +34,14 @@
     "v8-profiler-next": "^1.1.1"
   },
   "devDependencies": {
-    "dotenv": "^6.0.0",
     "express": "^4.16.3",
     "hapi16": "npm:hapi@16.x.x",
     "hapi17": "npm:hapi@17.x.x",
     "mocha": "^6.2.0",
+    "nyc": "~14.1.1",
     "proxyquire": "^2.0.1",
     "request": "^2.88.0",
     "sinon": "^6.1.4",
-    "supertest": "^3.1.0",
-    "yargs": "^9.0.1"
+    "supertest": "^3.1.0"
   }
 }

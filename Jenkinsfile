@@ -1,22 +1,69 @@
+def npmInstall = {
+  withArtifactoryNPM {
+    sshagent(['auth0extensions-ssh-key']) {
+      sh """
+        export npm_config_cache=/tmp
+        npm install
+      """
+    }
+  }
+}
+def runTests = {
+  try {
+    sh "npm test"
+    githubNotify context: 'jenkinsfile/auth0/tests', description: 'Tests passed', status: 'SUCCESS'
+  } catch (error) {
+    githubNotify context: 'jenkinsfile/auth0/tests', description: 'Tests failed', status: 'FAILURE'
+    throw error
+  }
+}
+
+def nodeVersions = ['8', '10', '12']
+
+def stageNodeVersion(version) {
+  return {
+    agent {
+      docker {
+        image "node:${version}"
+        args '-v /etc/passwd:/etc/passwd:ro -v /var/lib/jenkins/.ssh:/var/lib/jenkins/.ssh:ro'
+      }
+    }
+    stages {
+      stage('Install') {
+        steps {
+          script {
+            npmInstall()
+          }
+        }
+      }
+      stage('Test') {
+        steps {
+          script {
+            runTests()
+          }
+        }
+      }
+    }
+  }
+}
+
+stepsForParallel = [:]
+nodeVersions.each {
+  stepsForParallel["node v${it}"] = stageNodeVersion(it)
+}
+
 pipeline {
   agent {
     label 'crew-brokkr'
   }
 
-  tools {
-    nodejs '6.10.3'
-  }
-
-  environment {
-    NPM_TOKEN = credentials('auth0npm-npm-token')
-  }
-
   options {
     timeout(time: 10, unit: 'MINUTES')
+    buildDiscarder(logRotator(daysToKeepStr: '30'))
   }
 
   parameters {
-    string(name: 'SlackTarget', defaultValue: '#domain-obs-build', description: 'Target Slack Channel for notifications')
+    string(name: 'SlackTarget', defaultValue: '#sre-build', description: 'Target Slack Channel for master notifications')
   }
 
   stages {
@@ -28,22 +75,41 @@ pipeline {
           credentialsId: 'auth0extensions-ssh-key'])
       }
     }
-    stage('Build') {
-      steps {
-        sh 'yarn --ignore-engines'
+    stage('node lts') {
+      agent {
+        docker {
+          image "node:12"
+          args '-v /etc/passwd:/etc/passwd:ro -v /var/lib/jenkins/.ssh:/var/lib/jenkins/.ssh:ro'
+        }
+      }
+        stages {
+          stage('Install') {
+            steps {
+              script {
+                npmInstall()
+              }
+            }
+          }
+          stage('Test') {
+            steps {
+              script {
+                runTests()
+              }
+            }
+          }
+        }
       }
     }
-    stage('Publish') {
-      steps {
-        sh "echo //registry.npmjs.org/:_authToken=${env.NPM_TOKEN} > .npmrc"
-        sh 'tools/npm.sh'
-      }
-    }
-  }
 
   post {
     always {
-      notifySlack(params.SlackTarget);
+      script {
+        String additionalMessage = '';
+        additionalMessage += "\nPR: ${env.CHANGE_URL}\nTitle: ${env.CHANGE_TITLE}\nAuthor: ${env.CHANGE_AUTHOR}";
+        notifySlack(params.SlackTarget, additionalMessage);
+      }
+    }
+    cleanup {
       deleteDir()
     }
   }

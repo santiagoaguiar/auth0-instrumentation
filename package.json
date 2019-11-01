@@ -1,16 +1,25 @@
 {
-  "name": "auth0-instrumentation",
-  "version": "2.33.0",
+  "name": "@a0/instrumentation",
+  "version": "3.1.0",
   "description": "Instrumentation for logs, metrics, and exceptions",
   "main": "index.js",
   "scripts": {
-    "test": "mocha ${MOCHA_ARGS}"
+    "test": "mocha ${MOCHA_ARGS}",
+    "test:report": "mocha --reporter xunit > xunit.report.xml",
+    "coverage": "nyc --reporter=html npm run test:report",
+    "release": "semantic-release"
   },
-  "private": true,
+  "publishConfig": {
+    "registry": "https://a0us.jfrog.io/a0us/api/npm/npm/"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/auth0/auth0-instrumentation.git"
+  },
   "author": "Auth0",
   "license": "ISC",
   "dependencies": {
-    "auth0-common-logging": "auth0/auth0-common-logging#v2.22.0",
+    "auth0-common-logging": "auth0/auth0-common-logging#v2.24.0",
     "aws-kinesis-writable": "^4.2.3",
     "blocked": "^1.2.1",
     "bunyan": "^1.8.1",
@@ -33,15 +42,36 @@
     "v8-profiler-next": "^1.1.1"
   },
   "devDependencies": {
-    "dotenv": "^6.0.0",
+    "@semantic-release/changelog": "~3.0.5",
+    "@semantic-release/git": "~7.0.18",
     "express": "^4.16.3",
     "hapi16": "npm:hapi@16.x.x",
     "hapi17": "npm:hapi@17.x.x",
     "mocha": "^6.2.0",
+    "nyc": "~14.1.1",
     "proxyquire": "^2.0.1",
     "request": "^2.88.0",
+    "semantic-release": "~15.13.30",
     "sinon": "^6.1.4",
-    "supertest": "^3.1.0",
-    "yargs": "^9.0.1"
+    "supertest": "^3.1.0"
+  },
+  "release": {
+    "branch": "master",
+    "plugins": [
+      "@semantic-release/commit-analyzer",
+      "@semantic-release/release-notes-generator",
+      "@semantic-release/changelog",
+      "@semantic-release/npm",
+      "@semantic-release/github",
+      [
+        "@semantic-release/git",
+        {
+          "assets": [
+            "package.json",
+            "CHANGELOG.md"
+          ]
+        }
+      ]
+    ]
   }
 }

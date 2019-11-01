@@ -26,9 +26,10 @@ describe('Profiler', function() {
   describe('#createThrottledSnapshot', function() {
     it('should create a snapshot and report', function(done) {
       // this test can be flaky, due to slowness in writing or snapshotting.
+      this.timeout(10000);
       this.retries(3);
+      
       sinon.replace(profiler, 'report', sinon.spy());
-      this.timeout(5000);
       profiler.createThrottledSnapshot.flush();
       profiler.createThrottledSnapshot('testing');
       setTimeout(() => {

@@ -1,5 +1,14 @@
 # Changelog
 
+<a name="v3.1.0"></a>
+# v3.1.0
+- Metrics: Exposes Prefix-less instance
+
+<a name="v3.0.0"></a>
+# v3.0.0
+- Metrics: Supports Setting Empty METRICS_PREFIX
+- `METRICS_PREFIX=''` will result in metrics having no prefix. Previously this resulted in falling back to `package.json` `name` value.
+
 <a name="v2.33.0"></a>
 # v2.33.0
 - Added support for Node 12

@@ -127,7 +127,10 @@ def validateAndPublishArtifact() {
   if(currentBuild.currentResult == 'SUCCESS' && env.BRANCH_NAME == 'master') {
     dir("temp/v10") {
       docker.image("node:10").inside("-e HOME='.'") {
-        sh "npm run release"
+        sh """
+          export npm_config_cache=/tmp
+          npm run release
+        """
       }
     }
   }

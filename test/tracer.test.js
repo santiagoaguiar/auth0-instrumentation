@@ -614,7 +614,7 @@ describe('auth0 binary format', function() {
         return carrier;
       }
     };
-    $tracer = require('../lib/tracer')({}, {}, {}, { tracerImpl: $mock });
+    $tracer = require('../lib/tracer')({}, {}, {}, { tracerImpl: $mock, logger: stubs.logger });
   });
 
   it('should be able to inject and extract using AUTH0_FORMAT', function() {

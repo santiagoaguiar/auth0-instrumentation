@@ -1,16 +1,75 @@
-def npmInstall = {
-  withArtifactoryNPM {
-    sshagent(['auth0extensions-ssh-key']) {
-      sh """
-        export npm_config_cache=/tmp
-        npm install
-      """
+@Library('auth0') _
+
+/*
+NOTES: 
+
+* Some extra work is done for v8 in build step to get npm version to handle aliases.
+* Node 10 runs in xunit mode with coverage. Treated it special because:
+  * Current LTS
+  * v12 has deprecation warnings that screw up test parsing
+  * mocha multi reporter story sucks - still having spec is nice for human debugging.
+*/
+
+
+def nodeVersions = ['8', '10', '12'] // versions to test
+
+def stages = [:]
+nodeVersions.each { version -> // define stages
+  stages["node v${version}"] = createStage(version, {
+    stage("node v${version}: Build") {
+      cleanInstall(version)
+    }
+    stage("node v${version}: Test") {
+      runTests(version)
+    }
+  })
+}
+
+// pipeline
+node('crew-sre') {
+  auth0Wrap() {
+    try {
+      parallel stages
+    } catch(err) {
+      currentBuild.result = 'FAILURE'
+      throw err
+    } finally {
+      validateAndPublishArtifact()
+      publishReports()
+      updateSlack()
+      deleteDir()
     }
   }
 }
-def runTests = {
+
+/*
+-----------------------------
+Helpers Functions
+-----------------------------
+*/
+
+
+def createStage(String version, Closure cls) {
+  return {
+    sh("mkdir -p temp/v${version}")
+    dir("temp/v${version}") {
+      docker.image("node:${version}").inside("-e HOME='.'") {
+        cls()
+      }
+    }
+  }
+}
+
+def runTests(String version) {
   try {
-    sh "npm test"
+    def npmCmd = getNpm(version)
+
+    if (version == '10') {
+      sh "${npmCmd} run coverage"
+    } else {
+      sh "${npmCmd} test"
+    }
+
     githubNotify context: 'jenkinsfile/auth0/tests', description: 'Tests passed', status: 'SUCCESS'
   } catch (error) {
     githubNotify context: 'jenkinsfile/auth0/tests', description: 'Tests failed', status: 'FAILURE'
@@ -18,99 +77,68 @@ def runTests = {
   }
 }
 
-def nodeVersions = ['8', '10', '12']
+def cleanInstall(version) {
+  checkout scm
+  def npmCmd = getNpm(version)
+  sh "git clean -fdx"
+  sh "npm config set loglevel error"
+  sh "export npm_config_cache=/tmp"
 
-def stageNodeVersion(version) {
-  return {
-    agent {
-      docker {
-        image "node:${version}"
-        args '-v /etc/passwd:/etc/passwd:ro -v /var/lib/jenkins/.ssh:/var/lib/jenkins/.ssh:ro'
-      }
-    }
-    stages {
-      stage('Install') {
-        steps {
-          script {
-            npmInstall()
-          }
-        }
-      }
-      stage('Test') {
-        steps {
-          script {
-            runTests()
-          }
-        }
-      }
-    }
+  if(version == '8') {
+    sh 'mkdir `pwd`/.npm-global'
+    sh 'npm config set prefix "`pwd`/.npm-global"'
+    sh "NPM_CONFIG_PREFIX=`pwd`/.npm-global"
+    sh "npm install -g npm@6"
+  }
+
+  sh "${npmCmd} install"
+}
+
+def getNpm(version) {
+  echo "NODE VERSION: ${version}"
+  if (version == '8') {
+    return './.npm-global/bin/npm' 
+  } else {
+    return 'npm'
   }
 }
 
-stepsForParallel = [:]
-nodeVersions.each {
-  stepsForParallel["node v${it}"] = stageNodeVersion(it)
+def publishReports() {
+  dir("temp/v10") {
+    publishHTML (target: [
+      allowMissing: true,
+      alwaysLinkToLastBuild: false,
+      keepAll: true,
+      reportDir: 'coverage',
+      reportFiles: 'index.html',
+      reportName: "Code Coverage"
+    ])
+  }
 }
 
-pipeline {
-  agent {
-    label 'crew-brokkr'
-  }
+def updateSlack() {
+  String additionalMessage = '';
+  additionalMessage += "\nPR: ${env.CHANGE_URL}\nTitle: ${env.CHANGE_TITLE}\nAuthor: ${env.CHANGE_AUTHOR}";
+  additionalMessage += "\n" + junitResultsToString('temp/v10/xunit.report.xml');
+  notifySlack('#sre-build', additionalMessage);
+}
 
-  options {
-    timeout(time: 10, unit: 'MINUTES')
-    buildDiscarder(logRotator(daysToKeepStr: '30'))
+def validateAndPublishArtifact() {
+  if(currentBuild.currentResult == 'SUCCESS' && env.BRANCH_NAME == 'master') {
+    sh "npm run release"
   }
+}
 
-  parameters {
-    string(name: 'SlackTarget', defaultValue: '#sre-build', description: 'Target Slack Channel for master notifications')
-  }
-
-  stages {
-    stage('SharedLibs') { // Required. Stage to load the Auth0 shared library for Jenkinsfile
-      steps {
-        library identifier: 'auth0-jenkins-pipelines-library@master', retriever: modernSCM(
-          [$class: 'GitSCMSource',
-          remote: 'git@github.com:auth0/auth0-jenkins-pipelines-library.git',
-          credentialsId: 'auth0extensions-ssh-key'])
-      }
-    }
-    stage('node lts') {
-      agent {
-        docker {
-          image "node:12"
-          args '-v /etc/passwd:/etc/passwd:ro -v /var/lib/jenkins/.ssh:/var/lib/jenkins/.ssh:ro'
-        }
-      }
-        stages {
-          stage('Install') {
-            steps {
-              script {
-                npmInstall()
-              }
-            }
-          }
-          stage('Test') {
-            steps {
-              script {
-                runTests()
-              }
-            }
+def auth0Wrap(Closure cl) {
+  timeout(time: 10, unit: 'MINUTES') {
+    ansiColor('xterm') {
+      withCredentials([string(credentialsId: 'auth0extensions-token', variable: 'GITHUB_TOKEN')]) {
+        sshagent(['auth0extensions-ssh-key']) {
+          withArtifactoryNPM {
+            cl()
           }
         }
       }
-    }
-
-  post {
-    always {
-      script {
-        String additionalMessage = '';
-        additionalMessage += "\nPR: ${env.CHANGE_URL}\nTitle: ${env.CHANGE_TITLE}\nAuthor: ${env.CHANGE_AUTHOR}";
-        notifySlack(params.SlackTarget, additionalMessage);
-      }
-    }
-    cleanup {
-      deleteDir()
     }
   }
 }

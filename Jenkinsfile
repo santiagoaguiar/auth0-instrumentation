@@ -125,7 +125,11 @@ def updateSlack() {
 
 def validateAndPublishArtifact() {
   if(currentBuild.currentResult == 'SUCCESS' && env.BRANCH_NAME == 'master') {
-    sh "npm run release"
+    dir("temp/v10") {
+      docker.image("node:${version}").inside("-e HOME='.'") {
+        sh "npm run release"
+      }
+    }
   }
 }
 

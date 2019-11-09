@@ -53,6 +53,7 @@ def createStage(String version, Closure cls) {
   return {
     sh("mkdir -p temp/v${version}")
     dir("temp/v${version}") {
+      deleteDir()
       docker.image("node:${version}").inside("-e HOME='.'") {
         checkout scm
         sh "git clean -fdx"
@@ -126,15 +127,22 @@ def updateSlack() {
 }
 
 def validateAndPublishArtifact() {
-  if(currentBuild.currentResult == 'SUCCESS' && env.BRANCH_NAME == 'master') {
-    dir("temp/v10") {
-      docker.image("node:10").inside("-e HOME='.'") {
-        sh """
-          export npm_config_cache=/tmp
-          npm run release
-        """
+  try {
+    if(currentBuild.currentResult == 'SUCCESS' && env.BRANCH_NAME == 'master') {
+      dir("temp/v10") {
+        docker.image("node:10").inside("-e HOME='.'") {
+          withArtifactoryNPM {
+            sh """
+              export npm_config_cache=/tmp
+              npm run release
+            """
+          }
+        }
       }
     }
+  } catch (err) {
+    currentBuild.result = 'FAILURE'
+    currentBuild.currentResult == 'FAILURE'
   }
 }
 

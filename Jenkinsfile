@@ -54,7 +54,11 @@ def createStage(String version, Closure cls) {
     sh("mkdir -p temp/v${version}")
     dir("temp/v${version}") {
       docker.image("node:${version}").inside("-e HOME='.'") {
-        cls()
+        checkout scm
+        sh "git clean -fdx"
+        withArtifactoryNPM {
+          cls()
+        }
       }
     }
   }
@@ -78,12 +82,10 @@ def runTests(String version) {
 }
 
 def cleanInstall(version) {
-  checkout scm
   def npmCmd = getNpm(version)
-  sh "git clean -fdx"
   sh "npm config set loglevel error"
   sh "export npm_config_cache=/tmp"
-
+  
   if(version == '8') {
     sh 'mkdir `pwd`/.npm-global'
     sh 'npm config set prefix "`pwd`/.npm-global"'
@@ -141,9 +143,7 @@ def auth0Wrap(Closure cl) {
     ansiColor('xterm') {
       withCredentials([string(credentialsId: 'auth0extensions-token', variable: 'GITHUB_TOKEN')]) {
         sshagent(['auth0extensions-ssh-key']) {
-          withArtifactoryNPM {
-            cl()
-          }
+          cl()
         }
       }
     }

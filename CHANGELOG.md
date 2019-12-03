@@ -6,7 +6,6 @@
 * dependency updates, remove vulnerabilities ([70ab7b4](https://github.com/auth0/auth0-instrumentation/commit/70ab7b4f0095ab7dcf52bb172382dab13f7e2c96)), closes [#200](https://github.com/auth0/auth0-instrumentation/issues/200)
 * **trace:** Nodeback decorator for easy leaf operation instrumentation ([#210](https://github.com/auth0/auth0-instrumentation/issues/210)) ([65721b5](https://github.com/auth0/auth0-instrumentation/commit/65721b50518b4eb486452a972816f7b97371de4e))
 
-# Changelog
 
 <a name="v3.1.0"></a>
 # v3.1.0

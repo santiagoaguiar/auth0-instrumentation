@@ -1,3 +1,10 @@
+## [3.2.1](https://github.com/auth0/auth0-instrumentation/compare/v3.2.0...v3.2.1) (2019-12-06)
+
+
+### Bug Fixes
+
+* **dep:** removed hapi as installed dependency ([#211](https://github.com/auth0/auth0-instrumentation/issues/211)) ([8f6cbdd](https://github.com/auth0/auth0-instrumentation/commit/8f6cbdd3dffbfa934f3d74f8c3f7f7e0ee547f2b))
+
 # [3.2.0](https://github.com/auth0/auth0-instrumentation/compare/v3.1.0...v3.2.0) (2019-12-03)
 
 

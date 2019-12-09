@@ -1,3 +1,10 @@
+# [3.3.0](https://github.com/auth0/auth0-instrumentation/compare/v3.2.1...v3.3.0) (2019-12-09)
+
+
+### Features
+
+* **trace:** Nodeback decorator accepts tracer to `startSpan` on ([eb872f4](https://github.com/auth0/auth0-instrumentation/commit/eb872f48669ff7d08fc41b53d32414464fa9148e))
+
 ## [3.2.1](https://github.com/auth0/auth0-instrumentation/compare/v3.2.0...v3.2.1) (2019-12-06)
 
 

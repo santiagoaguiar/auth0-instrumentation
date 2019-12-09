@@ -986,7 +986,7 @@ describe('tracer.helpers', function() {
       assert.equal(decoratedFn(), 'coding!');
       const report = mock.report();
       assert.equal(report.spans.length, 0);
-    })
+    });
 
     it('should create a span and finish with reference/tags provided in spanOptions', (done) => {
       const mock = new opentracing.MockTracer();
@@ -1029,6 +1029,53 @@ describe('tracer.helpers', function() {
         });
         done();
       });
+    });
+
+    it('should call parameterized tracer when tracer is provided', (done) => {
+      const mock = new opentracing.MockTracer();
+      const tracer = buildTracer({}, {}, {
+      }, { tracerImpl: mock });
+
+      const mockParameterized = new opentracing.MockTracer();
+      const tracerParameterized = buildTracer({}, {}, {
+        REGION: 'myRegion',
+        RELEASE_CHANNEL: 'myReleaseChannel',
+        ENVIRONMENT: 'myEnvironment',
+        METRICS_HOST: 'myHostname'
+      }, { tracerImpl: mockParameterized });
+
+      const myFunc = (greeting, cb) => {
+        const err = null;
+        cb(err, greeting);
+      };
+
+      const decoratedFn = tracer.helpers.decorateNodeback(
+        'myFunc',
+        myFunc,
+        {},
+        tracerParameterized
+      );
+      decoratedFn('hello', (err, res) => {
+        assert.equal(err, null);
+        assert.equal(res, 'hello');
+
+        const report = mock.report();
+        assert.equal(report.spans.length, 0);
+
+
+        const parameterizedReport = mockParameterized.report();
+
+        const span = parameterizedReport.spans[0];
+        assert.equal(span.operationName(), 'myFunc');
+        assert.deepEqual(span.tags(), {
+          'auth0.channel': 'myReleaseChannel',
+          'auth0.region': 'myRegion',
+          'auth0.environment': 'myEnvironment',
+          'auth0.hostname': 'myHostname'
+        });
+
+        done();
+      })
     });
   });
 });

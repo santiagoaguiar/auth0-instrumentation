@@ -1,3 +1,10 @@
+# [3.4.0](https://github.com/auth0/auth0-instrumentation/compare/v3.3.0...v3.4.0) (2019-12-11)
+
+
+### Features
+
+* **profiler:** Enable GC stats by default ([779d36b](https://github.com/auth0/auth0-instrumentation/commit/779d36bf095a92d3d15440b8ca68955d369d5a22))
+
 # [3.3.0](https://github.com/auth0/auth0-instrumentation/compare/v3.2.1...v3.3.0) (2019-12-09)
 
 

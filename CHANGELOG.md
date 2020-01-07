@@ -1,3 +1,10 @@
+# [3.6.0](https://github.com/auth0/auth0-instrumentation/compare/v3.5.0...v3.6.0) (2020-01-07)
+
+
+### Features
+
+* Whitelist feature as error tag ([b3f8c21](https://github.com/auth0/auth0-instrumentation/commit/b3f8c21d79e9a6903403ea5f8a5bdca486f4f3f6)), closes [#215](https://github.com/auth0/auth0-instrumentation/issues/215)
+
 # [3.5.0](https://github.com/auth0/auth0-instrumentation/compare/v3.4.0...v3.5.0) (2020-01-03)
 - Whitelist "feature" to be used as tag in Sentry
 

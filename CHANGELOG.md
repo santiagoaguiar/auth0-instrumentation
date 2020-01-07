@@ -1,3 +1,6 @@
+# [3.5.0](https://github.com/auth0/auth0-instrumentation/compare/v3.4.0...v3.5.0) (2020-01-03)
+- Whitelist "feature" to be used as tag in Sentry
+
 # [3.4.0](https://github.com/auth0/auth0-instrumentation/compare/v3.3.0...v3.4.0) (2019-12-11)
 
 

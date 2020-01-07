@@ -11,7 +11,7 @@ NOTES:
 */
 
 
-def nodeVersions = ['8', '10', '12'] // versions to test
+def nodeVersions = ['10', '12'] // versions to test
 
 def stages = [:]
 nodeVersions.each { version -> // define stages

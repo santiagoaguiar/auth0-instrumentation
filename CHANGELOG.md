@@ -1,3 +1,10 @@
+# [3.7.0](https://github.com/auth0/auth0-instrumentation/compare/v3.6.0...v3.7.0) (2020-01-24)
+
+
+### Features
+
+* add request id helpers and implements baggageItems ([#218](https://github.com/auth0/auth0-instrumentation/issues/218)) ([06a6c1e](https://github.com/auth0/auth0-instrumentation/commit/06a6c1e9ab59d068e9c7251b061183b9c8981db7))
+
 # [3.6.0](https://github.com/auth0/auth0-instrumentation/compare/v3.5.0...v3.6.0) (2020-01-07)
 
 

@@ -19,7 +19,7 @@
   "author": "Auth0",
   "license": "ISC",
   "dependencies": {
-    "auth0-common-logging": "auth0/auth0-common-logging#v2.24.0",
+    "auth0-common-logging": "auth0/auth0-common-logging#v2.26.2",
     "aws-kinesis-writable": "^4.2.3",
     "blocked": "^1.2.1",
     "bunyan": "^1.8.1",

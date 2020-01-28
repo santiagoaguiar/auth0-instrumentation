@@ -1,3 +1,10 @@
+# [3.8.0](https://github.com/auth0/auth0-instrumentation/compare/v3.7.0...v3.8.0) (2020-01-28)
+
+
+### Features
+
+* **logger:** schema debug stream ([#220](https://github.com/auth0/auth0-instrumentation/issues/220)) ([3faf0c0](https://github.com/auth0/auth0-instrumentation/commit/3faf0c0043f1df8066a557a022a3aba104ea0494)), closes [#SREPR-515](https://github.com/auth0/auth0-instrumentation/issues/SREPR-515)
+
 # [3.7.0](https://github.com/auth0/auth0-instrumentation/compare/v3.6.0...v3.7.0) (2020-01-24)
 
 

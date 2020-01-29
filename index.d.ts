@@ -1,15 +1,15 @@
 
 declare export interface Logger {
   child(options: Object, simple?: boolean): Logger;
-  debug(tags: object): void;
+  debug(tags: object, message?: string): void;
   debug(message: string, tags?: object): void;
-  info(tags: object): void;
+  info(tags: object, message?: string): void;
   info(message: string, tags?: object): void;
-  warn(tags: object): void;
+  warn(tags: object, message?: string): void;
   warn(message: string, tags?: object): void;
-  error(tags: object): void;
+  error(tags: object, message?: string): void;
   error(message: string, tags?: object): void;
-  fatal(tags: object): void;
+  fatal(tags: object, message?: string): void;
   fatal(message: string, tags?: object): void;
 }
 

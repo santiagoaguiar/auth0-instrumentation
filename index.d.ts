@@ -1,14 +1,19 @@
 
-export interface Logger {
+declare export interface Logger {
   child(options: Object, simple?: boolean): Logger;
+  debug(tags: object): void;
   debug(message: string, tags?: object): void;
+  info(tags: object): void;
   info(message: string, tags?: object): void;
+  warn(tags: object): void;
   warn(message: string, tags?: object): void;
+  error(tags: object): void;
   error(message: string, tags?: object): void;
+  fatal(tags: object): void;
   fatal(message: string, tags?: object): void;
 }
 
-export interface Metrics {
+declare export interface Metrics {
   setDefaultTags(tags: object): void;
   observeBucketed(
     name: string,
@@ -42,13 +47,14 @@ export interface Metrics {
   startResourceCollection(tags?: object): void;
   flush(): void;
   close(): void;
+  std: any;
 }
 
-export interface ExceptionOptions {
+declare export interface ExceptionOptions {
   extra?: any;
 }
 
-export interface ErrorReporter {
+declare export interface ErrorReporter {
   captureException(err: any, options: ExceptionOptions): void;
   captureMessage(msg: string, options: ExceptionOptions): void;
   patchGlobal(exitHandler: () => void);
@@ -61,7 +67,7 @@ export interface ErrorReporter {
   };
 }
 
-export interface Span {
+declare export interface Span {
   log(obj: any): void;
   error(err: any): void;
   finish(): void;
@@ -73,14 +79,15 @@ export interface Span {
   isStub: boolean
 }
 
-export interface Tracer {
+declare export interface Tracer {
   startSpan(string: name, options?: any): Span;
   inject(context: any, format: string, carrier: any): void;
   extract(format: string, carrier: any): any;
   Tags: any;
+  middleware: any;
 }
 
-export interface Profiler {
+declare export interface Profiler {
   setupProcessListener(): void;
   createProfile(callback: Callback);
   createProfile(timeout: number, callback: Callback);
@@ -89,9 +96,9 @@ export interface Profiler {
   setupGCReporter(): void;
 }
 
-export function init(packageJson: any, env: any, serializers: any): void;
-export const errorReporter: ErrorReporter;
-export const metrics: Metrics;
-export const logger: Logger;
-export const profiler: Profiler;
-export const tracer: Tracer;
+declare export function init(packageJson: any, env: any, serializers: any): void;
+declare export const errorReporter: ErrorReporter;
+declare export const metrics: Metrics;
+declare export const logger: Logger;
+declare export const profiler: Profiler;
+declare export const tracer: Tracer;

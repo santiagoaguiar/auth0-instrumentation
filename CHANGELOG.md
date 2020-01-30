@@ -1,3 +1,10 @@
+## [3.8.1](https://github.com/auth0/auth0-instrumentation/compare/v3.8.0...v3.8.1) (2020-01-30)
+
+
+### Bug Fixes
+
+* vuln issues ([#226](https://github.com/auth0/auth0-instrumentation/issues/226)) ([1643c9b](https://github.com/auth0/auth0-instrumentation/commit/1643c9b59ae85d0195414dbf61bfb8e91909750b))
+
 # [3.8.0](https://github.com/auth0/auth0-instrumentation/compare/v3.7.0...v3.8.0) (2020-01-28)
 
 

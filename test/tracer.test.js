@@ -883,3 +883,199 @@ describe('trace request helper', function() {
     });
   });
 });
+
+
+describe('tracer.helpers', function() {
+  describe('decorateNodeback()', function() {
+    it('should create a span and finish for decorated function no error', (done) => {
+      const mock = new opentracing.MockTracer();
+      const tracer = buildTracer({}, {}, {
+        REGION: 'myRegion',
+        RELEASE_CHANNEL: 'myReleaseChannel',
+        ENVIRONMENT: 'myEnvironment',
+        METRICS_HOST: 'myHostname'
+      }, { tracerImpl: mock });
+
+      const myFunc = (greeting, cb) => {
+        const err = null;
+        cb(err, greeting);
+      };
+
+      const decoratedFn = tracer.helpers.decorateNodeback('myFunc', myFunc);
+      decoratedFn('hello', (err, res) => {
+        assert.equal(err, null);
+        assert.equal(res, 'hello');
+
+        const report = mock.report();
+        assert.equal(report.spans.length, 1);
+
+        const span = report.spans[0];
+        assert.equal(span.operationName(), 'myFunc');
+        assert.deepEqual(span.tags(), {
+          'auth0.channel': 'myReleaseChannel',
+          'auth0.region': 'myRegion',
+          'auth0.environment': 'myEnvironment',
+          'auth0.hostname': 'myHostname'
+        });
+
+        done();
+      });
+    });
+
+    it('should create a span and finish for decorated function with error', (done) => {
+      const mock = new opentracing.MockTracer();
+      const tracer = buildTracer({}, {}, {
+        REGION: 'myRegion',
+        RELEASE_CHANNEL: 'myReleaseChannel',
+        ENVIRONMENT: 'myEnvironment',
+        METRICS_HOST: 'myHostname'
+      }, { tracerImpl: mock });
+
+      const myFunc = (greeting, cb) => {
+        const err = true;
+        cb(err, greeting);
+      };
+
+      const decoratedFn = tracer.helpers.decorateNodeback('myFunc', myFunc);
+      decoratedFn('hello', (err, res) => {
+        assert.equal(err, true);
+        assert.equal(res, 'hello');
+
+        const report = mock.report();
+        assert.equal(report.spans.length, 1);
+
+        const span = report.spans[0];
+        assert.equal(span.operationName(), 'myFunc');
+        assert.deepEqual(span.tags(), {
+          'auth0.channel': 'myReleaseChannel',
+          'auth0.region': 'myRegion',
+          'auth0.environment': 'myEnvironment',
+          'auth0.hostname': 'myHostname',
+          'sampling.priority': 1,
+          'error': true
+        });
+        done();
+      });
+    });
+
+    it('should call original function if callback is not a function', () => {
+      const mock = new opentracing.MockTracer();
+      const tracer = buildTracer({}, {}, {
+      }, { tracerImpl: mock });
+
+      const myFunc = (greeting) => {
+        return greeting
+      };
+
+      const decoratedFn = tracer.helpers.decorateNodeback('myFunc', myFunc);
+      assert.equal(decoratedFn('hello'), 'hello');
+      const report = mock.report();
+      assert.equal(report.spans.length, 0);
+    });
+
+    it('should call original function if no wrapped function is called with 0 parameters', () => {
+      const mock = new opentracing.MockTracer();
+      const tracer = buildTracer({}, {}, {
+      }, { tracerImpl: mock });
+
+      const myFunc = () => {
+        return 'coding!'
+      };
+
+      const decoratedFn = tracer.helpers.decorateNodeback('myFunc', myFunc);
+      assert.equal(decoratedFn(), 'coding!');
+      const report = mock.report();
+      assert.equal(report.spans.length, 0);
+    });
+
+    it('should create a span and finish with reference/tags provided in spanOptions', (done) => {
+      const mock = new opentracing.MockTracer();
+      const tracer = buildTracer({}, {}, {
+        REGION: 'myRegion',
+        RELEASE_CHANNEL: 'myReleaseChannel',
+        ENVIRONMENT: 'myEnvironment',
+        METRICS_HOST: 'myHostname'
+      }, { tracerImpl: mock });
+
+      const myFunc = (greeting, cb) => {
+        const err = null;
+        cb(err, greeting);
+      };
+
+      const parent = tracer.startSpan('parent');
+
+      const decoratedFn = tracer.helpers.decorateNodeback('myFunc', myFunc, {
+        childOf: parent,
+      });
+
+      decoratedFn('hello', (err, res) => {
+        assert.equal(err, null);
+        assert.equal(res, 'hello');
+
+        const report = mock.report();
+        assert.equal(report.spans.length, 2);
+
+        const spanParent = report.spans[0];
+        assert.equal(spanParent.operationName(), 'parent');
+
+        const spanChild = report.spans[1];
+        assert.equal(spanChild.operationName(), 'myFunc');
+
+        assert.deepEqual(spanChild.tags(), {
+          'auth0.channel': 'myReleaseChannel',
+          'auth0.region': 'myRegion',
+          'auth0.environment': 'myEnvironment',
+          'auth0.hostname': 'myHostname',
+        });
+        done();
+      });
+    });
+
+    it('should call parameterized tracer when tracer is provided', (done) => {
+      const mock = new opentracing.MockTracer();
+      const tracer = buildTracer({}, {}, {
+      }, { tracerImpl: mock });
+
+      const mockParameterized = new opentracing.MockTracer();
+      const tracerParameterized = buildTracer({}, {}, {
+        REGION: 'myRegion',
+        RELEASE_CHANNEL: 'myReleaseChannel',
+        ENVIRONMENT: 'myEnvironment',
+        METRICS_HOST: 'myHostname'
+      }, { tracerImpl: mockParameterized });
+
+      const myFunc = (greeting, cb) => {
+        const err = null;
+        cb(err, greeting);
+      };
+
+      const decoratedFn = tracer.helpers.decorateNodeback(
+        'myFunc',
+        myFunc,
+        {},
+        tracerParameterized
+      );
+      decoratedFn('hello', (err, res) => {
+        assert.equal(err, null);
+        assert.equal(res, 'hello');
+
+        const report = mock.report();
+        assert.equal(report.spans.length, 0);
+
+
+        const parameterizedReport = mockParameterized.report();
+
+        const span = parameterizedReport.spans[0];
+        assert.equal(span.operationName(), 'myFunc');
+        assert.deepEqual(span.tags(), {
+          'auth0.channel': 'myReleaseChannel',
+          'auth0.region': 'myRegion',
+          'auth0.environment': 'myEnvironment',
+          'auth0.hostname': 'myHostname'
+        });
+
+        done();
+      })
+    });
+  });
+});

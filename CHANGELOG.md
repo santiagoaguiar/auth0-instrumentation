@@ -1,4 +1,63 @@
-# Changelog
+## [3.8.1](https://github.com/auth0/auth0-instrumentation/compare/v3.8.0...v3.8.1) (2020-01-30)
+
+
+### Bug Fixes
+
+* vuln issues ([#226](https://github.com/auth0/auth0-instrumentation/issues/226)) ([1643c9b](https://github.com/auth0/auth0-instrumentation/commit/1643c9b59ae85d0195414dbf61bfb8e91909750b))
+
+# [3.8.0](https://github.com/auth0/auth0-instrumentation/compare/v3.7.0...v3.8.0) (2020-01-28)
+
+
+### Features
+
+* **logger:** schema debug stream ([#220](https://github.com/auth0/auth0-instrumentation/issues/220)) ([3faf0c0](https://github.com/auth0/auth0-instrumentation/commit/3faf0c0043f1df8066a557a022a3aba104ea0494)), closes [#SREPR-515](https://github.com/auth0/auth0-instrumentation/issues/SREPR-515)
+
+# [3.7.0](https://github.com/auth0/auth0-instrumentation/compare/v3.6.0...v3.7.0) (2020-01-24)
+
+
+### Features
+
+* add request id helpers and implements baggageItems ([#218](https://github.com/auth0/auth0-instrumentation/issues/218)) ([06a6c1e](https://github.com/auth0/auth0-instrumentation/commit/06a6c1e9ab59d068e9c7251b061183b9c8981db7))
+
+# [3.6.0](https://github.com/auth0/auth0-instrumentation/compare/v3.5.0...v3.6.0) (2020-01-07)
+
+
+### Features
+
+* Whitelist feature as error tag ([b3f8c21](https://github.com/auth0/auth0-instrumentation/commit/b3f8c21d79e9a6903403ea5f8a5bdca486f4f3f6)), closes [#215](https://github.com/auth0/auth0-instrumentation/issues/215)
+
+# [3.5.0](https://github.com/auth0/auth0-instrumentation/compare/v3.4.0...v3.5.0) (2020-01-03)
+- Whitelist "feature" to be used as tag in Sentry
+
+# [3.4.0](https://github.com/auth0/auth0-instrumentation/compare/v3.3.0...v3.4.0) (2019-12-11)
+
+
+### Features
+
+* **profiler:** Enable GC stats by default ([779d36b](https://github.com/auth0/auth0-instrumentation/commit/779d36bf095a92d3d15440b8ca68955d369d5a22))
+
+# [3.3.0](https://github.com/auth0/auth0-instrumentation/compare/v3.2.1...v3.3.0) (2019-12-09)
+
+
+### Features
+
+* **trace:** Nodeback decorator accepts tracer to `startSpan` on ([eb872f4](https://github.com/auth0/auth0-instrumentation/commit/eb872f48669ff7d08fc41b53d32414464fa9148e))
+
+## [3.2.1](https://github.com/auth0/auth0-instrumentation/compare/v3.2.0...v3.2.1) (2019-12-06)
+
+
+### Bug Fixes
+
+* **dep:** removed hapi as installed dependency ([#211](https://github.com/auth0/auth0-instrumentation/issues/211)) ([8f6cbdd](https://github.com/auth0/auth0-instrumentation/commit/8f6cbdd3dffbfa934f3d74f8c3f7f7e0ee547f2b))
+
+# [3.2.0](https://github.com/auth0/auth0-instrumentation/compare/v3.1.0...v3.2.0) (2019-12-03)
+
+
+### Features
+
+* dependency updates, remove vulnerabilities ([70ab7b4](https://github.com/auth0/auth0-instrumentation/commit/70ab7b4f0095ab7dcf52bb172382dab13f7e2c96)), closes [#200](https://github.com/auth0/auth0-instrumentation/issues/200)
+* **trace:** Nodeback decorator for easy leaf operation instrumentation ([#210](https://github.com/auth0/auth0-instrumentation/issues/210)) ([65721b5](https://github.com/auth0/auth0-instrumentation/commit/65721b50518b4eb486452a972816f7b97371de4e))
+
 
 <a name="v3.1.0"></a>
 # v3.1.0

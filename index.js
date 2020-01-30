@@ -4,6 +4,7 @@ var ErrorReporter = require('./lib/error_reporter');
 var Metrics = require('./lib/metrics');
 var Profiler = require('./lib/profiler');
 var Tracer = require('./lib/tracer');
+var reqIdHelpers = require('./lib/req_id_helpers');
 
 /**
  * @typedef {Object} InstrumentationParams
@@ -22,6 +23,8 @@ module.exports = {
   profiler: stubs.profiler,
   tracer: stubs.tracer,
   initialized: false,
+
+  helpers: { reqIdHelpers },
 
   /**
    * Initialize the instrumentation agent

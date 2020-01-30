@@ -7,9 +7,24 @@ ignore:
         reason: >-
           The vulnerable package is not used during runtime, only when
           installing
-        expires: '2019-06-17T17:35:14.389Z'
+        expires: '2020-02-29T09:21:22.647Z'
   SNYK-JS-SUBTEXT-467257:
     - hapi > subtext:
-        reason: legacy support - devDep
-        expires: '2019-11-29T17:19:02.490Z'
+        reason: >-
+          The vulnerable package is not used during runtime - legacy support -
+          devDep
+        expires: '2020-02-29T09:21:22.647Z'
+    - subtext:
+        reason: >-
+          The vulnerable package is not used during runtime - legacy support -
+          devDep
+        expires: '2020-02-29T09:21:22.647Z'
+  SNYK-JS-MARKED-174116:
+    - lightstep-tracer > thrift > jsdoc > marked:
+        reason: no impact - not used (wait for version release)
+        expires: '2020-02-29T09:24:42.124Z'
+  SNYK-JS-MARKED-451540:
+    - lightstep-tracer > thrift > jsdoc > marked:
+        reason: no impact - not used (wait for version release)
+        expires: '2020-02-29T09:24:42.124Z'
 patch: {}

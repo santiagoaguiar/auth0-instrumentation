@@ -1,9 +1,0 @@
-version: '2'
-
-services:
-  auth0-instrumentation:
-    image: node:8.9.0
-    container_name: auth0-instrumentation
-    volumes:
-      - ./:/app
-    command: /bin/sh -c "cd /app; yarn install && yarn test"

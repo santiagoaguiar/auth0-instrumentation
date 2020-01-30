@@ -11,7 +11,7 @@ NOTES:
 */
 
 
-def nodeVersions = ['8', '10', '12'] // versions to test
+def nodeVersions = ['10', '12'] // versions to test
 
 def stages = [:]
 nodeVersions.each { version -> // define stages
@@ -54,11 +54,15 @@ def createStage(String version, Closure cls) {
     sh("mkdir -p temp/v${version}")
     dir("temp/v${version}") {
       deleteDir()
-      docker.image("node:${version}").inside("-e HOME='.'") {
+      docker.image("node:${version}").inside("-e HOME='.' -v /etc/passwd:/etc/passwd -v /var/lib/jenkins/.ssh:/var/lib/jenkins/.ssh") {
         checkout scm
         sh "git clean -fdx"
-        withArtifactoryNPM {
-          cls()
+        withCredentials([string(credentialsId: 'auth0extensions-token', variable: 'GITHUB_TOKEN')]) {
+          sshagent(['auth0extensions-ssh-key']) {
+            withArtifactoryNPM {
+              cls()
+            }
+          }
         }
       }
     }

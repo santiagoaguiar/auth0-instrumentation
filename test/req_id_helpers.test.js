@@ -1,6 +1,7 @@
 const assert = require('assert');
 const sinon = require('sinon');
 const reqIdHelpers = require('../lib/req_id_helpers');
+const _ = require('lodash');
 
 describe('Request id helpers', function() {
   function mockReq(options) {
@@ -169,12 +170,14 @@ describe('Request id helpers', function() {
       });
     });
 
-    it('when span is available with `getBaggageItem` and `setBaggageItem` and `TAG_AUTH0_REQUEST_ID` is not set as baggage item, it sets the id on `TAG_AUTH0_REQUEST_ID`', () => {
+    it('when span is available with `getBaggageItem` and `setBaggageItem` and `TAG_AUTH0_REQUEST_ID` is not set as baggage item, it sets the id on `TAG_AUTH0_REQUEST_ID` baggage and tag', () => {
       const getBaggageItem = sinon.stub();
       const setBaggageItem = sinon.stub();
+      const setTag = sinon.stub();
       const span = {
         getBaggageItem,
-        setBaggageItem
+        setBaggageItem,
+        setTag
       };
 
       const req = {
@@ -185,6 +188,7 @@ describe('Request id helpers', function() {
 
       reqIdHelpers.forwardReqIdsToSpan(req, span);
       sinon.assert.calledWith(setBaggageItem, 'auth0.request_id', 'abcdef012345678912345678');
+      sinon.assert.calledWith(setTag, 'auth0.request_id', 'abcdef012345678912345678');
     });
 
     it('when span is available with `getBaggageItem` and `setBaggageItem` and `TAG_AUTH0_REQUEST_ID` is set as baggage item, it does not set the id on `TAG_AUTH0_REQUEST_ID`', () => {
@@ -287,6 +291,14 @@ describe('Request id helpers', function() {
       assert.strictEqual(reqIdHelpers.getIdFromReq({
         headers: {
           'x-amzn-trace-id': '1-67891233-abcdef012345678912345678'
+        }
+      }), null);
+    });
+
+    it('when `x-amzn-trace-id` is available but it is too long, returns null', () => {
+      assert.strictEqual(reqIdHelpers.getIdFromReq({
+        headers: {
+          'x-amzn-trace-id': _.repeat('Root=1-67891233-abcdef012345678912345678;', 100)
         }
       }), null);
     });

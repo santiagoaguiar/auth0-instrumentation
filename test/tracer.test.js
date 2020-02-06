@@ -696,6 +696,22 @@ describe('trace request helper', function() {
         .on('error', err => done(err));
     });
 
+    it('should allow setting the operation name', function(done) {
+      const reqUrl = $address + '/success';
+      $wrapRequest({ operation: 'test' }, requestjs)(reqUrl)
+        .on('response', (res) => {
+          assert.equal(200, res.statusCode);
+          const report = $mock.report();
+          const span = report.firstSpanWithTagValue(
+            $tracer.Tags.HTTP_STATUS_CODE, 200);
+          assert.ok(span);
+          assert.equal('test', span.operationName());
+          assert.equal('GET', span.tags()[$tracer.Tags.HTTP_METHOD]);
+          done();
+        })
+        .on('error', err => done(err));
+    });
+
     it('should add error tags', function(done) {
       const reqUrl = $address + '/error';
       $wrapRequest(requestjs)(reqUrl)

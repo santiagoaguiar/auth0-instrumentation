@@ -1,3 +1,10 @@
+# [3.9.0](https://github.com/auth0/auth0-instrumentation/compare/v3.8.1...v3.9.0) (2020-02-06)
+
+
+### Features
+
+* Fix req_id_helpers, support specifying operation name for request wrapper and support configuring mock tracer ([49b689e](https://github.com/auth0/auth0-instrumentation/commit/49b689e623c118b8580652aac604d2b51ad94626)), closes [#228](https://github.com/auth0/auth0-instrumentation/issues/228)
+
 ## [3.8.1](https://github.com/auth0/auth0-instrumentation/compare/v3.8.0...v3.8.1) (2020-01-30)
 
 

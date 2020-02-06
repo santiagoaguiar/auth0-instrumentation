@@ -1,3 +1,10 @@
+## [3.9.1](https://github.com/auth0/auth0-instrumentation/compare/v3.9.0...v3.9.1) (2020-02-06)
+
+
+### Bug Fixes
+
+* missing dependency require on mock mode ([2cf1986](https://github.com/auth0/auth0-instrumentation/commit/2cf1986c5f0a967dbc6b035cec0ac3e3bdb18394)), closes [#229](https://github.com/auth0/auth0-instrumentation/issues/229)
+
 # [3.9.0](https://github.com/auth0/auth0-instrumentation/compare/v3.8.1...v3.9.0) (2020-02-06)
 
 

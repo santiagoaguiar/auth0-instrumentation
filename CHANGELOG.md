@@ -1,3 +1,10 @@
+# [3.10.0](https://github.com/auth0/auth0-instrumentation/compare/v3.9.2...v3.10.0) (2020-02-07)
+
+
+### Features
+
+* Expose tracing helpers ([29bceb5](https://github.com/auth0/auth0-instrumentation/commit/29bceb517c45b43b1fe3e45fa627a33e909cfe4a)), closes [#231](https://github.com/auth0/auth0-instrumentation/issues/231)
+
 ## [3.9.2](https://github.com/auth0/auth0-instrumentation/compare/v3.9.1...v3.9.2) (2020-02-07)
 
 

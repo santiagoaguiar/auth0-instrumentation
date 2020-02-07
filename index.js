@@ -5,6 +5,10 @@ var Metrics = require('./lib/metrics');
 var Profiler = require('./lib/profiler');
 var Tracer = require('./lib/tracer');
 var reqIdHelpers = require('./lib/req_id_helpers');
+var buildDecorateNodeback = require('./lib/decorate_nodeback_helper');
+var tracerUtils = require('./lib/tracer_utils');
+var requestHelper = require('./lib/trace_request');
+var middleware = require('./lib/tracer_middleware');
 
 /**
  * @typedef {Object} InstrumentationParams
@@ -24,7 +28,25 @@ module.exports = {
   tracer: stubs.tracer,
   initialized: false,
 
-  helpers: { reqIdHelpers },
+  helpers: {
+    reqIdHelpers,
+
+    tracingHelpers: (tracer) => {
+      return {
+        middleware: {
+          express: middleware.express(tracer),
+          hapi16: middleware.hapi16(tracer),
+          hapi17: middleware.hapi17(tracer)
+        },
+
+        wrapRequest: requestHelper(tracer),
+
+        decorateNodeback: buildDecorateNodeback(tracer),
+
+        mapToTags: tracerUtils.mapToTags
+      };
+    }
+  },
 
   /**
    * Initialize the instrumentation agent

@@ -1,3 +1,10 @@
+## [3.9.2](https://github.com/auth0/auth0-instrumentation/compare/v3.9.1...v3.9.2) (2020-02-07)
+
+
+### Bug Fixes
+
+* Add support for extract, inject, and baggage items to the mock ([64b059a](https://github.com/auth0/auth0-instrumentation/commit/64b059a8e1ba841bb5fd65ff0d097df5ca3b8ca1)), closes [#230](https://github.com/auth0/auth0-instrumentation/issues/230)
+
 ## [3.9.1](https://github.com/auth0/auth0-instrumentation/compare/v3.9.0...v3.9.1) (2020-02-06)
 
 

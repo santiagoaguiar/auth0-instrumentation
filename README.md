@@ -17,7 +17,7 @@ Usage:
 var serializers = require('./serializers'); // See https://github.com/trentm/node-bunyan#serializers
 var pkg = require('./package.json');
 var env = require('./lib/env');
-var agent = require('auth0-instrumentation');
+var agent = require('@a0/instrumentation');
 agent.init(pkg, env, serializers);
 var logger = agent.logger;
 
@@ -38,7 +38,7 @@ Usage:
 ```js
 var pkg = require('./package.json');
 var env = require('./lib/env');
-var agent = require('auth0-instrumentation');
+var agent = require('@a0/instrumentation');
 agent.init(pkg, env);
 var metrics = agent.metrics;
 
@@ -62,7 +62,7 @@ Basic Usage:
 ```js
 var pkg = require('./package.json');
 var env = require('./lib/env');
-var agent = require('auth0-instrumentation');
+var agent = require('@a0/instrumentation');
 agent.init(pkg, env);
 var tracer = agent.tracer;
 
@@ -95,7 +95,7 @@ For expressjs
 ```js
 var pkg = require('./package.json');
 var env = require('./lib/env');
-var agent = require('auth0-instrumentation');
+var agent = require('@a0/instrumentation');
 var express = require('express');
 
 agent.init(pkg, env);
@@ -116,7 +116,7 @@ Version 16 (and below)
 ```js
 var pkg = require('./package.json');
 var env = require('./lib/env');
-var agent = require('auth0-instrumentation');
+var agent = require('@a0/instrumentation');
 var hapi = require('hapi');
 
 agent.init(pkg, env);
@@ -137,7 +137,7 @@ Version 17 (and above)
 ```
 const pkg = require('/package.json');
 const env = require('./lib/env');
-const agent = require('auth0-instrumentation');
+const agent = require('@a0/instrumentation');
 var hapi = require('hapi');
 
 agent.init(pkg, env);
@@ -158,7 +158,7 @@ of outgoing requests.
 ```js
 var pkg = require('./package.json');
 var env = require('./lib/env');
-var agent = require('auth0-instrumentation');
+var agent = require('@a0/instrumentation');
 var request = require('request');
 
 agent.init(pkg, env, {
@@ -206,7 +206,7 @@ For `hapi`, the error reporter is a plugin. To use it, you can do something like
 ```js
 var pkg = require('./package.json');
 var env = require('./lib/env');
-var agent = require('auth0-instrumentation');
+var agent = require('@a0/instrumentation');
 agent.init(pkg, env);
 
 var hapi = require('hapi');
@@ -243,7 +243,7 @@ For `express`, the error reporter is composed of two middlewares. To use it, you
 ```js
 var pkg = require('./package.json');
 var env = require('./lib/env');
-var agent = require('auth0-instrumentation');
+var agent = require('@a0/instrumentation');
 agent.init(pkg, env);
 
 var express = require('express');
@@ -272,7 +272,7 @@ If you don't use `hapi` or `express` - maybe it's not an HTTP API, it's a worker
 ```js
 var pkg = require('./package.json');
 var env = require('./lib/env');
-var agent = require('auth0-instrumentation');
+var agent = require('@a0/instrumentation');
 agent.init(pkg, env);
 
 // to capture all uncaughts

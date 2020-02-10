@@ -1,10 +1,15 @@
-var stubs = require('./lib/stubs');
-var Logger = require('./lib/logger');
-var ErrorReporter = require('./lib/error_reporter');
-var Metrics = require('./lib/metrics');
-var Profiler = require('./lib/profiler');
-var Tracer = require('./lib/tracer');
-var reqIdHelpers = require('./lib/req_id_helpers');
+const stubs = require('./lib/stubs');
+const Logger = require('./lib/logger');
+const ErrorReporter = require('./lib/error_reporter');
+const Metrics = require('./lib/metrics');
+const Profiler = require('./lib/profiler');
+const Tracer = require('./lib/tracer');
+const reqIdHelpers = require('./lib/req_id_helpers');
+const buildDecorateNodeback = require('./lib/decorate_nodeback_helper');
+const tracerUtils = require('./lib/tracer_utils');
+const requestHelper = require('./lib/trace_request');
+const middleware = require('./lib/tracer_middleware');
+const opentracing = require('opentracing');
 
 /**
  * @typedef {Object} InstrumentationParams
@@ -24,7 +29,25 @@ module.exports = {
   tracer: stubs.tracer,
   initialized: false,
 
-  helpers: { reqIdHelpers },
+  helpers: {
+    reqIdHelpers,
+
+    tracingHelpers: (tracer) => {
+      return {
+        middleware: {
+          express: middleware.express(tracer),
+          hapi16: middleware.hapi16(tracer),
+          hapi17: middleware.hapi17(tracer)
+        },
+
+        wrapRequest: requestHelper(tracer),
+
+        decorateNodeback: buildDecorateNodeback(tracer),
+
+        mapToTags: tracerUtils.mapToTags
+      };
+    }
+  },
 
   /**
    * Initialize the instrumentation agent
@@ -55,12 +78,16 @@ module.exports = {
     );
 
     this.profiler = new Profiler(this, pkg, env);
-    this.tracer = Tracer(this, pkg, env, {
+    const tracer = Tracer(this, pkg, env, {
       // Using params.isEnabled should be consider legacy since it is a bit
       // misleading because it only applies to tracing
       isEnabled: params && (params.isTracerEnabled || params.isEnabled),
-      logger: this.logger
+      logger: this.logger,
+      metrics: this.metrics.std,
+      slis: params && params.slis
     });
+    opentracing.initGlobalTracer(tracer);
+    this.tracer = tracer;
     this.initialized = true;
 
     if (params && params.fileRotationSignal && env.LOG_FILE) {

@@ -1,6 +1,6 @@
 {
   "name": "@a0/instrumentation",
-  "version": "3.8.1",
+  "version": "3.11.0",
   "description": "Instrumentation for logs, metrics, and exceptions",
   "main": "index.js",
   "types": "index.d.ts",
@@ -20,6 +20,7 @@
   "author": "Auth0",
   "license": "ISC",
   "dependencies": {
+    "@a0/observability-nodejs": "~0.5.5",
     "auth0-common-logging": "auth0/auth0-common-logging#v2.26.2",
     "aws-kinesis-writable": "^4.2.3",
     "blocked": "^1.2.1",

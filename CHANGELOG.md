@@ -1,3 +1,38 @@
+# [3.11.0](https://github.com/auth0/auth0-instrumentation/compare/v3.10.0...v3.11.0) (2020-02-10)
+
+
+### Features
+
+* Support SLI tracer and configure opentracing global tracer ([#232](https://github.com/auth0/auth0-instrumentation/issues/232)) ([4efe450](https://github.com/auth0/auth0-instrumentation/commit/4efe4501ab0e3937f9af8b4d1c0fdb0ab777b327))
+
+# [3.10.0](https://github.com/auth0/auth0-instrumentation/compare/v3.9.2...v3.10.0) (2020-02-07)
+
+
+### Features
+
+* Expose tracing helpers ([29bceb5](https://github.com/auth0/auth0-instrumentation/commit/29bceb517c45b43b1fe3e45fa627a33e909cfe4a)), closes [#231](https://github.com/auth0/auth0-instrumentation/issues/231)
+
+## [3.9.2](https://github.com/auth0/auth0-instrumentation/compare/v3.9.1...v3.9.2) (2020-02-07)
+
+
+### Bug Fixes
+
+* Add support for extract, inject, and baggage items to the mock ([64b059a](https://github.com/auth0/auth0-instrumentation/commit/64b059a8e1ba841bb5fd65ff0d097df5ca3b8ca1)), closes [#230](https://github.com/auth0/auth0-instrumentation/issues/230)
+
+## [3.9.1](https://github.com/auth0/auth0-instrumentation/compare/v3.9.0...v3.9.1) (2020-02-06)
+
+
+### Bug Fixes
+
+* missing dependency require on mock mode ([2cf1986](https://github.com/auth0/auth0-instrumentation/commit/2cf1986c5f0a967dbc6b035cec0ac3e3bdb18394)), closes [#229](https://github.com/auth0/auth0-instrumentation/issues/229)
+
+# [3.9.0](https://github.com/auth0/auth0-instrumentation/compare/v3.8.1...v3.9.0) (2020-02-06)
+
+
+### Features
+
+* Fix req_id_helpers, support specifying operation name for request wrapper and support configuring mock tracer ([49b689e](https://github.com/auth0/auth0-instrumentation/commit/49b689e623c118b8580652aac604d2b51ad94626)), closes [#228](https://github.com/auth0/auth0-instrumentation/issues/228)
+
 ## [3.8.1](https://github.com/auth0/auth0-instrumentation/compare/v3.8.0...v3.8.1) (2020-01-30)
 
 

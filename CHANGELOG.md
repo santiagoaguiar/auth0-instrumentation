@@ -1,3 +1,10 @@
+# [3.11.0](https://github.com/auth0/auth0-instrumentation/compare/v3.10.0...v3.11.0) (2020-02-10)
+
+
+### Features
+
+* Support SLI tracer and configure opentracing global tracer ([#232](https://github.com/auth0/auth0-instrumentation/issues/232)) ([4efe450](https://github.com/auth0/auth0-instrumentation/commit/4efe4501ab0e3937f9af8b4d1c0fdb0ab777b327))
+
 # [3.10.0](https://github.com/auth0/auth0-instrumentation/compare/v3.9.2...v3.10.0) (2020-02-07)
 
 

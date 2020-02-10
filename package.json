@@ -3,6 +3,7 @@
   "version": "3.11.0",
   "description": "Instrumentation for logs, metrics, and exceptions",
   "main": "index.js",
+  "types": "index.d.ts",
   "scripts": {
     "test": "mocha ${MOCHA_ARGS}",
     "test:report": "mocha --reporter xunit > xunit.report.xml",

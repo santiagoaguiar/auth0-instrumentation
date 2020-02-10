@@ -1,3 +1,10 @@
+# [3.12.0](https://github.com/auth0/auth0-instrumentation/compare/v3.11.0...v3.12.0) (2020-02-10)
+
+
+### Features
+
+* add TS typings ([#224](https://github.com/auth0/auth0-instrumentation/issues/224)) ([7cdcbbd](https://github.com/auth0/auth0-instrumentation/commit/7cdcbbdc1666f609f0f76d249cb4cbf5185ad98c))
+
 # [3.11.0](https://github.com/auth0/auth0-instrumentation/compare/v3.10.0...v3.11.0) (2020-02-10)
 
 

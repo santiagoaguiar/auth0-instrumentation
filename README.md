@@ -57,6 +57,37 @@ metrics.histogram('service.time', 0.248);
 
 The tracing feature can be used with any backend that supports [opentracing](http://opentracing.io/).
 
+SLI Tracer:
+Initializes a "multitracer" that calls the requested tracer (lightstep, jaeger, etc.)
+and the [SLI Tracer](https://github.com/auth0/observability-nodejs) which allows you to send
+metrics for certain operations discounting particular spans. All the tools and middlewares work
+out of the box.
+
+```js
+const agent = require('@a0/instrumentation');
+
+agent.init(pkg, env, null, {
+  slis: {
+    operationsToTrack: {
+      'mySLIOperation': {},
+    }
+  }
+});
+
+const span = sliTracer.startSpan('http.request', {
+  tags: {
+    sli: true,
+  }
+});
+
+span.setTag(
+  'sli.operation',
+  'mySLIOperation'
+);
+
+span.finish();
+```
+
 Basic Usage:
 
 ```js
@@ -86,6 +117,34 @@ tracer.captureFunc('child1', function(child1) {
   }, child1);
 }, rootSpan);
 rootSpan.finish();
+```
+
+Opentracing:
+
+Auth0-instrumentation configures the global tracer from opentracing javascript,
+it is advisable to use it instead of calling the implementation from auth0/instrumentation,
+this is specially true en the case of libraries, if possible avoid referencing auth0-instrumentation
+tracer directly and use `opentracing.globalTracer()` instead, the implementations must match in general,
+however, `opentracing` is standard and allows auth0-instrumentation to change without having to change
+your libraries and implementation.
+
+```js
+const opentracing = require('opentracing');
+
+const tracer = opentracing.globalTracer();
+
+const span1 = tracer.startSpan('myOperation', {
+  tags: {
+    sli: true
+  }
+})
+
+const span2 = tracer.startSpan('myOperation', {
+  childOf: span2
+})
+
+span2.finish();
+span1.finish();
 ```
 
 The tracer also provides middleware for several common frameworks
@@ -310,7 +369,7 @@ const env = {
   // AWS configuration for Kinesis
   'AWS_ACCESS_KEY_ID': undefined,
   'AWS_ACCESS_KEY_SECRET': undefined,
-  'AWS_REGION': undefined, // auth0-instrumentation uses 'AWS_KINESIS_REGION' and if not defined it will use 'AWS_REGION'
+  'AWS_REGION': undefined, // @a0/instrumentation uses 'AWS_KINESIS_REGION' and if not defined it will use 'AWS_REGION'
 
   // Kinesis configuration (single stream)
   'LOG_TO_KINESIS': undefined, // Kinesis stream name
@@ -360,7 +419,7 @@ const env = {
 ```
 
 ## Docker Testing
-To test `auth0-instrumentation` locally in a simple container simply run
+To test `@a0/instrumentation` locally in a simple container simply run
 ```sh
 docker-compose up && docker-compose rm -f
 ```

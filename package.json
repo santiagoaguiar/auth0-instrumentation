@@ -19,6 +19,7 @@
   "author": "Auth0",
   "license": "ISC",
   "dependencies": {
+    "@a0/observability-nodejs": "~0.5.5",
     "auth0-common-logging": "auth0/auth0-common-logging#v2.26.2",
     "aws-kinesis-writable": "^4.2.3",
     "blocked": "^1.2.1",

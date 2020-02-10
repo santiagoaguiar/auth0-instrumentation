@@ -1,8 +1,24 @@
 const tracingFactory = require('../lib/tracer_factory');
 const assert = require('assert');
 const opentracing = require('opentracing');
+const o11y = require('@a0/observability-nodejs');
 
 describe('tracer factory', () => {
+  describe('when setting up SLI tracer', () => {
+    it('returns the multitracer with the selected tracer as primary and the sli trace as secondary tracer', () => {
+      const tracer = tracingFactory.create({}, {}, { TRACE_AGENT_CLIENT: 'mock' }, {
+        slis: {
+          operationsToTrack: {
+            'my_operation': {}
+          }
+        }
+      });
+      assert.ok(tracer instanceof o11y.tracing.MultiTracer);
+      assert.ok(tracer.primaryTracer instanceof opentracing.MockTracer);
+      assert.ok(tracer.additionalTracers[0] instanceof o11y.slis.tracing.Tracer);
+    });
+  });
+
   describe('when TRACE_AGENT_CLIENT is mock', () => {
     it('returns the mock', () => {
       const tracer = tracingFactory.create({}, {}, { TRACE_AGENT_CLIENT: 'mock' }, {});
